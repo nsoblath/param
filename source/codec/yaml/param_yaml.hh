@@ -13,7 +13,7 @@
 #include "param_codec.hh"
 
 
-namespace scarab
+namespace param
 {
     class param_array;
     class param_value;
@@ -74,6 +74,6 @@ namespace scarab
             YAML::Node param_value_handler( const param& a_to_write );
     };
 
-} /* namespace scarab */
+} /* namespace param */
 
 #endif /* PARAM_YAML_HH_ */

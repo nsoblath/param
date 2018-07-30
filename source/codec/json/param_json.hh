@@ -5,12 +5,12 @@
  *      Author: nsoblath, bhlaroque
  */
 
-#ifndef SCARAB_PARAM_JSON_HH_
-#define SCARAB_PARAM_JSON_HH_
+#ifndef PARAM_PARAM_JSON_HH_
+#define PARAM_PARAM_JSON_HH_
 
 #include "param_codec.hh"
 
-#include "logger.hh"
+#include "debug_msg.hh"
 #include "param.hh"
 
 #include "rapidjson/fwd.h"
@@ -23,10 +23,8 @@
 #include <string>
 
 
-namespace scarab
+namespace param
 {
-    LOGGER( dlog_param_json, "param_json" );
-
     //***************************************
     //************** INPUT ******************
     //***************************************
@@ -40,7 +38,7 @@ namespace scarab
      @details
      Options: None
     */
-    class SCARAB_API param_input_json : public param_input_codec
+    class PARAM_API param_input_json : public param_input_codec
     {
         public:
             param_input_json();
@@ -68,7 +66,7 @@ namespace scarab
            Pretty print: { "style": param_output_json::k_pretty } or { "style": "pretty" }
            Compact (default): { "style": param_output_json::k_compact } or { "style": "compact" } or anything else
     */
-    class SCARAB_API param_output_json : public param_output_codec
+    class PARAM_API param_output_json : public param_output_codec
     {
         public:
             typedef rapidjson::Writer< rapidjson::FileWriteStream > rj_file_writer;
@@ -121,57 +119,49 @@ namespace scarab
         {
             return param_output_json::write_param_node( a_to_write.as_node(), a_writer );
         }
-        LWARN( dlog_param_json, "parameter not written: <" << a_to_write << ">" );
+        CERR_WARNING( "parameter not written: <" << a_to_write << ">" );
         return false;
     }
     template< class XWriter >
     bool param_output_json::write_param_null( const param& /*a_to_write*/, XWriter* a_writer )
     {
-        //LWARN( dlog_param_json, "writing null" );
         a_writer->Null();
         return true;
     }
     template< class XWriter >
     bool param_output_json::write_param_value( const param_value& a_to_write, XWriter* a_writer )
     {
-        //LWARN( dlog_param_json, "writing value" );
         if( a_to_write.is_string() )
         {
             a_writer->String( a_to_write.as_string().c_str() );
-            //LWARN( dlog_param_json, "writing string to json: " << a_to_write.as_string() );
         }
         else if( a_to_write.is_bool() )
         {
             a_writer->Bool( a_to_write.as_bool() );
-            //LWARN( dlog_param_json, "writing bool to json: " << a_to_write.as_bool() );
         }
         else if( a_to_write.is_int() )
         {
             a_writer->Int64( a_to_write.as_int() );
-            //LWARN( dlog_param_json, "writing int to json: " << a_to_write.as_int() );
         }
         else if( a_to_write.is_uint() )
         {
             a_writer->Uint64( a_to_write.as_uint() );
-            //LWARN( dlog_param_json, "writing uint to json: " << a_to_write.as_uint() );
         }
         else if( a_to_write.is_double() )
         {
             a_writer->Double( a_to_write.as_double() );
-            //LWARN( dlog_param_json, "writing double to json: " << a_to_write.as_double() );
         }
         return true;
     }
     template< class XWriter >
     bool param_output_json::write_param_array( const param_array& a_to_write, XWriter* a_writer )
     {
-        //LWARN( dlog_param_json, "writing array" );
         a_writer->StartArray();
         for( param_array::const_iterator it = a_to_write.begin(); it != a_to_write.end(); ++it )
         {
             if( ! param_output_json::write_param( *it, a_writer ) )
             {
-                LERROR( dlog_param_json, "Error while writing parameter array" );
+                CERR_ERROR( "Error while writing parameter array" );
                 return false;
             }
         }
@@ -181,14 +171,13 @@ namespace scarab
     template< class XWriter >
     bool param_output_json::write_param_node( const param_node& a_to_write, XWriter* a_writer )
     {
-        //LWARN( dlog_param_json, "writing node" );
         a_writer->StartObject();
         for( param_node::const_iterator it = a_to_write.begin(); it != a_to_write.end(); ++it )
         {
             a_writer->String( it.name().c_str() );
             if( ! param_output_json::write_param( *it, a_writer ) )
             {
-                LERROR( dlog_param_json, "Error while writing parameter node" );
+                CERR_ERROR( "Error while writing parameter node" );
                 return false;
             }
         }
@@ -197,6 +186,6 @@ namespace scarab
     }
 
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_JSON_HH_ */
+#endif /* PARAM_PARAM_JSON_HH_ */

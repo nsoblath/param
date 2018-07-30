@@ -5,8 +5,8 @@
  *      Author: nsoblath
  */
 
-#ifndef SCARAB_PARAM_BASE_IMPL_HH_
-#define SCARAB_PARAM_BASE_IMPL_HH_
+#ifndef PARAM_PARAM_BASE_IMPL_HH_
+#define PARAM_PARAM_BASE_IMPL_HH_
 
 #include "param_base.hh"
 
@@ -14,7 +14,7 @@
 #include "param_node.hh"
 #include "param_value.hh"
 
-namespace scarab
+namespace param
 {
 
     inline param& param::operator=( const param& )
@@ -168,6 +168,6 @@ namespace scarab
         return std::string();
     }
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_BASE_IMPL_HH_ */
+#endif /* PARAM_PARAM_BASE_IMPL_HH_ */

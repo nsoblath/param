@@ -5,7 +5,7 @@
  *      Author: nsoblath
  */
 
-#define SCARAB_API_EXPORTS
+#define PARAM_API_EXPORTS
 
 #include <sstream>
 using std::string;
@@ -17,7 +17,7 @@ using std::stringstream;
 #include "param_base_impl.hh"
 
 
-namespace scarab
+namespace param
 {
 
     param_node::param_node() :
@@ -141,9 +141,9 @@ namespace scarab
         return out.str();
     }
 
-    SCARAB_API std::ostream& operator<<(std::ostream& out, const param_node& a_value)
+    PARAM_API std::ostream& operator<<(std::ostream& out, const param_node& a_value)
     {
         return out << a_value.to_string();
     }
 
-} /* namespace scarab */
+} /* namespace param */

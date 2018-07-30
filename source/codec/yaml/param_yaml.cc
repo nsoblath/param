@@ -5,11 +5,11 @@
  *      Author: bidishasen97
  */
 
-#define SCARAB_API_EXPORTS
+#define PARAM_API_EXPORTS
 
 #include "param_yaml.hh"
 
-#include "logger.hh"
+#include "debug_msg.hh"
 #include "param.hh"
 
 #include <sstream>
@@ -18,10 +18,8 @@
 using std::string;
 using std::stringstream;
 
-namespace scarab
+namespace param
 {
-    LOGGER( slog, "param_yaml" );
-
     REGISTER_PARAM_INPUT_CODEC( param_input_yaml, "yaml" );
 
     param_input_yaml::param_input_yaml()
@@ -39,7 +37,7 @@ namespace scarab
         }
         catch( YAML::Exception& e )
         {
-            LERROR( slog, "YAML error: " << e.what() );
+            CERR_ERROR( "YAML error: " << e.what() );
             return std::unique_ptr< param >();
         }
     }
@@ -53,7 +51,7 @@ namespace scarab
         }
         catch( YAML::Exception& e )
         {
-            LERROR( slog, "YAML error: " << e.what() );
+            CERR_ERROR( "YAML error: " << e.what() );
             return std::unique_ptr< param >();
         }
     }
@@ -81,10 +79,10 @@ namespace scarab
         }
         catch( YAML::Exception& e )
         {
-            LERROR(slog, "YAML error in read_node_type: " << e.what());
+            CERR_ERROR( "YAML error in read_node_type: " << e.what());
             throw error() << "YAML error: " << e.what();
         }
-        LDEBUG( slog, "YAML unknown" );
+        COUT_DEBUG( "YAML unknown" );
         throw error() << "Unknown YAML encountered";
         return std::unique_ptr< param >();
     }
@@ -104,7 +102,7 @@ namespace scarab
         }
         catch( YAML::Exception& e )
         {
-            LERROR( slog, "YAML error in sequence_handler: " << e.what() );
+            CERR_ERROR( "YAML error in sequence_handler: " << e.what() );
             return std::unique_ptr< param_array >();
         }
     }
@@ -124,7 +122,7 @@ namespace scarab
         }
         catch( YAML::Exception& e )
         {
-            LERROR( slog, "YAML error in map_handler: " << e.what() );
+            CERR_ERROR( "YAML error in map_handler: " << e.what() );
             return std::unique_ptr< param_node >();
         }
     }
@@ -138,7 +136,7 @@ namespace scarab
         }
         catch ( YAML::Exception& e )
         {
-            LERROR( slog, "YAML error in scalar_handler: " << e.what() )
+            CERR_ERROR( "YAML error in scalar_handler: " << e.what() )
             return std::unique_ptr< param_value >();
         }
     }
@@ -156,7 +154,7 @@ namespace scarab
     {
         if( a_filename.empty() )
         {
-            LERROR( slog, "Filename cannot be an empty string" );
+            CERR_ERROR( "Filename cannot be an empty string" );
             return false;
         }
 
@@ -164,7 +162,7 @@ namespace scarab
 
         if (file == NULL)
         {
-            LERROR( slog, "Unable to open file: " << a_filename );
+            CERR_ERROR( "Unable to open file: " << a_filename );
             return false;
         }
 
@@ -206,7 +204,7 @@ namespace scarab
         {
             return param_output_yaml::param_value_handler( a_to_write );
         }
-        LWARN( slog, "Unknown param type encountered" );
+        CERR_WARNING( "Unknown param type encountered" );
         return YAML::Node();
     }
 
@@ -266,9 +264,9 @@ namespace scarab
             return t_node = value.as_string();
         }
 
-        LWARN( slog, "Unkown value type encountered" );
+        CERR_WARNING( "Unkown value type encountered" );
         return YAML::Node();
     }
 }
-/* namespace scarab */
+/* namespace param */
 

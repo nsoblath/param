@@ -5,7 +5,7 @@
  *      Author: nsoblath
  */
 
-#define SCARAB_API_EXPORTS
+#define PARAM_API_EXPORTS
 
 #include <sstream>
 using std::string;
@@ -15,10 +15,10 @@ using std::stringstream;
 
 #include "param_base_impl.hh"
 
-namespace scarab
+namespace param
 {
 
-    SCARAB_API unsigned param::s_indent_level = 0;
+    PARAM_API unsigned param::s_indent_level = 0;
 
     param::param()
     {
@@ -57,9 +57,9 @@ namespace scarab
         throw error() << "Invalid merge command with incompatible param types";
     }
 
-    SCARAB_API std::ostream& operator<<(std::ostream& out, const param& a_value)
+    PARAM_API std::ostream& operator<<(std::ostream& out, const param& a_value)
     {
         return out << a_value.to_string();
     }
 
-} /* namespace scarab */
+} /* namespace param */

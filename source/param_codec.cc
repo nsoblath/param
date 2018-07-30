@@ -5,17 +5,13 @@
  *      Author: obla999
  */
 
-#define SCARAB_API_EXPORTS
+#define PARAM_API_EXPORTS
 
 #include "param_codec.hh"
 
 #include "factory.hh"
-#include "logger.hh"
-#include "path.hh"
 
-LOGGER( slog, "param_codec" );
-
-namespace scarab
+namespace param
 {
 
     param_input_codec::param_input_codec()
@@ -49,15 +45,19 @@ namespace scarab
         std::string t_encoding = a_options.get_value( "encoding", "" );
         if( t_encoding.empty() )
         {
-            path t_path = expand_path( a_filename );
-            t_encoding = t_path.extension().native().substr( 1 ); // remove the '.' at the beginning
+            // no encoding provided; get the file extension by finding the text after the last '.' in the filename
+            size_t t_dot_pos = a_filename.find_last_of( '.' );
+            if( t_dot_pos == a_filename.npos )
+            {
+                throw error() << "Encoding was not provided, and could not identify file extension to determine an encoding";
+            }
+            t_encoding = a_filename.substr( t_dot_pos+1 );
         }
 
         param_input_codec* t_codec = factory< param_input_codec >::get_instance()->create( t_encoding );
         if( t_codec == nullptr )
         {
-            LERROR( slog, "Unable to find input codec for encoding <" << t_encoding << ">");
-            return nullptr;
+            throw error() << "Unable to find codec for encoding <" << t_encoding << ">";
         }
 
         return t_codec->read_file( a_filename, a_options );
@@ -68,15 +68,13 @@ namespace scarab
         std::string t_encoding = a_options.get_value( "encoding", "" );
         if( t_encoding.empty() )
         {
-            LERROR( slog, "Encoding-type option must be provided");
-            return nullptr;
+            throw error() << "Encoding-type option must be provided";
         }
 
         param_input_codec* t_codec = factory< param_input_codec >::get_instance()->create( t_encoding );
         if( t_codec == nullptr )
         {
-            LERROR( slog, "Unable to find input codec for encoding <" << t_encoding << ">");
-            return nullptr;
+            throw error() << "Unable to find input codec for encoding <" << t_encoding << ">";
         }
 
         return t_codec->read_string( a_string, a_options );
@@ -87,15 +85,19 @@ namespace scarab
         std::string t_encoding = a_options.get_value( "encoding", "" );
         if( t_encoding.empty() )
         {
-            path t_path = expand_path( a_filename );
-            t_encoding = t_path.extension().native().substr( 1 ); // remove the '.' at the beginning
+            // no encoding provided; get the file extension by finding the text after the last '.' in the filename
+            size_t t_dot_pos = a_filename.find_last_of( '.' );
+            if( t_dot_pos == a_filename.npos )
+            {
+                throw error() << "Encoding was not provided, and could not identify file extension to determine an encoding";
+            }
+            t_encoding = a_filename.substr( t_dot_pos+1 );
         }
 
         param_output_codec* t_codec = factory< param_output_codec >::get_instance()->create( t_encoding );
         if( t_codec == nullptr )
         {
-            LERROR( slog, "Unable to find output codec for encoding <" << t_encoding << ">");
-            return false;
+            throw error() << "Unable to find output codec for encoding <" << t_encoding << ">";
         }
 
         return t_codec->write_file( a_param, a_filename, a_options );
@@ -106,19 +108,17 @@ namespace scarab
         std::string t_encoding = a_options.get_value( "encoding", "" );
         if( t_encoding.empty() )
         {
-            LERROR( slog, "Encoding-type option must be provided");
-            return false;
+            throw error() << "Encoding-type option must be provided";
         }
 
         param_output_codec* t_codec = factory< param_output_codec >::get_instance()->create( t_encoding );
         if( t_codec == nullptr )
         {
-            LERROR( slog, "Unable to find output codec for encoding <" << t_encoding << ">");
-            return false;
+            throw error() << "Unable to find output codec for encoding <" << t_encoding << ">";
         }
 
         return t_codec->write_string( a_param, a_string, a_options );
     }
 
 
-} /* namespace scarab */
+} /* namespace param */

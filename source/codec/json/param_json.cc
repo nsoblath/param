@@ -5,7 +5,7 @@
  *      Author: nsoblath, bhlaroque
  */
 
-#define SCARAB_API_EXPORTS
+#define PARAM_API_EXPORTS
 
 #include <sstream>
 using std::string;
@@ -13,19 +13,13 @@ using std::stringstream;
 
 #include "param_json.hh"
 
-#include "logger.hh"
-
 #include "rapidjson/document.h"
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/stringbuffer.h"
 
-
-
-namespace scarab
+namespace param
 {
-    LOGGER( dlog, "param" );
-
     REGISTER_PARAM_INPUT_CODEC( param_input_json, "json" );
 
     param_input_json::param_input_json()
@@ -40,7 +34,7 @@ namespace scarab
         FILE* t_config_file = fopen( a_filename.c_str(), "r" );
         if( t_config_file == NULL )
         {
-            LERROR( dlog, "file <" << a_filename << "> did not open" );
+            CERR_ERROR( "file <" << a_filename << "> did not open" );
             return NULL;
         }
 
@@ -69,13 +63,13 @@ namespace scarab
             }
             if( iChar == errorPos )
             {
-                LERROR( dlog, "error parsing config file :\n" <<
+                CERR_ERROR( "error parsing config file :\n" <<
                         '\t' << t_config_doc.GetParseError() << '\n' <<
                         "\tThe error was reported at line " << newlineCount << ", character " << errorPos - lastNewlinePos );
             }
             else
             {
-                LERROR( dlog, "error parsing config file :\n" <<
+                CERR_ERROR( "error parsing config file :\n" <<
                         '\t' << t_config_doc.GetParseError() <<
                         "\tend of file reached before error location was found" );
             }
@@ -92,7 +86,7 @@ namespace scarab
         rapidjson::Document t_config_doc;
         if( t_config_doc.Parse<0>( a_json_string.c_str() ).HasParseError() )
         {
-            LERROR( dlog, "error parsing string:\n" << t_config_doc.GetParseError() );
+            CERR_ERROR( "error parsing string:\n" << t_config_doc.GetParseError() );
             return NULL;
         }
         return param_input_json::read_document( t_config_doc );
@@ -173,7 +167,7 @@ namespace scarab
             //LWARN( dlog, "reading double from json: " << a_value.GetDouble() );
             return std::unique_ptr< param_value >( new param_value( a_value.GetDouble() ) );
         }
-        LWARN( dlog, "(config_reader_json) unknown type; returning null value" );
+        CERR_WARNING( "(config_reader_json) unknown type; returning null value" );
         return std::unique_ptr< param >( new param() );
     }
 
@@ -190,14 +184,14 @@ namespace scarab
     {
         if( a_filename.empty() )
         {
-            LERROR( dlog, "Filename cannot be an empty string" );
+            CERR_ERROR( "Filename cannot be an empty string" );
             return false;
         }
 
         FILE* file = fopen( a_filename.c_str(), "w" );
         if( file == NULL )
         {
-            LERROR( dlog, "Unable to open file: " << a_filename );
+            CERR_ERROR( "Unable to open file: " << a_filename );
             return false;
         }
 
@@ -232,7 +226,7 @@ namespace scarab
 
         if (! t_result )
         {
-            LERROR( dlog, "Error while writing file" );
+            CERR_ERROR( "Error while writing file" );
             return false;
         }
 
@@ -271,7 +265,7 @@ namespace scarab
 
         if (! t_result )
         {
-            LERROR( dlog, "Error while writing string" );
+            CERR_ERROR( "Error while writing string" );
             return false;
         }
 
@@ -280,4 +274,4 @@ namespace scarab
         return true;
     }
 
-} /* namespace scarab */
+} /* namespace param */

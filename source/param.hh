@@ -5,8 +5,8 @@
  *      Author: nsoblath
  */
 
-#ifndef SCARAB_PARAM_HH_
-#define SCARAB_PARAM_HH_
+#ifndef PARAM_PARAM_HH_
+#define PARAM_PARAM_HH_
 
 #include "param_array.hh"
 #include "param_base.hh"
@@ -15,4 +15,4 @@
 
 #include "param_base_impl.hh"
 
-#endif /* SCARAB_PARAM_HH_ */
+#endif /* PARAM_PARAM_HH_ */

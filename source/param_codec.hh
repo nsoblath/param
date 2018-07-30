@@ -2,28 +2,26 @@
  * param_codec.hh
  *
  *  Created on: Aug 10, 2016
- *      Author: obla999
+ *      Author: N.S. Oblath
  */
 
-#ifndef SCARAB_PARAM_CODEC_HH_
-#define SCARAB_PARAM_CODEC_HH_
+#ifndef PARAM_PARAM_CODEC_HH_
+#define PARAM_PARAM_CODEC_HH_
 
 #include "param.hh"
-
-#include "scarab_api.hh"
 
 #include "factory.hh"
 
 #include <memory>
 #include <string>
 
-namespace scarab
+namespace param
 {
 
 #define REGISTER_PARAM_INPUT_CODEC(codec_class, encoding) \
         static registrar< param_input_codec, codec_class > s_param_input_codec##codec_class##_registrar( encoding );
 
-    class SCARAB_API param_input_codec
+    class PARAM_API param_input_codec
     {
         public:
             param_input_codec();
@@ -34,7 +32,7 @@ namespace scarab
     };
 
 
-    class SCARAB_API param_output_codec
+    class PARAM_API param_output_codec
     {
         public:
             param_output_codec();
@@ -48,7 +46,7 @@ namespace scarab
         static registrar< param_output_codec, codec_class > s_param_output_codec##codec_class##_registrar( encoding );
 
 
-    class SCARAB_API param_translator
+    class PARAM_API param_translator
     {
         public:
             param_translator();
@@ -65,6 +63,6 @@ namespace scarab
 
 
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_CODEC_HH_ */
+#endif /* PARAM_PARAM_CODEC_HH_ */

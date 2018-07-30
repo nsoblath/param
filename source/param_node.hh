@@ -5,8 +5,8 @@
  *      Author: nsoblath
  */
 
-#ifndef SCARAB_PARAM_NODE_HH_
-#define SCARAB_PARAM_NODE_HH_
+#ifndef PARAM_PARAM_NODE_HH_
+#define PARAM_PARAM_NODE_HH_
 
 #include "param_value.hh"
 
@@ -16,7 +16,7 @@
 
 #include <map>
 
-namespace scarab
+namespace param
 {
     class param_value;
     class param_array;
@@ -66,7 +66,7 @@ namespace scarab
     typedef map_deref_iterator< std::string, const param, param_node_contents::const_iterator > param_node_const_iterator;
 
 
-    class SCARAB_API param_node : public param
+    class PARAM_API param_node : public param
     {
         public:
             typedef param_node_contents contents;
@@ -345,8 +345,8 @@ namespace scarab
         return const_iterator( f_contents.cend() );
     }
 
-    SCARAB_API std::ostream& operator<<(std::ostream& out, const param_node& value);
+    PARAM_API std::ostream& operator<<(std::ostream& out, const param_node& value);
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_NODE_HH_ */
+#endif /* PARAM_PARAM_NODE_HH_ */

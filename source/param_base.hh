@@ -5,8 +5,8 @@
  *      Author: nsoblath
  */
 
-#ifndef SCARAB_PARAM_BASE_HH_
-#define SCARAB_PARAM_BASE_HH_
+#ifndef PARAM_PARAM_BASE_HH_
+#define PARAM_PARAM_BASE_HH_
 
 #include "error.hh"
 
@@ -14,7 +14,7 @@
 #include <sstream>
 #include <string>
 
-namespace scarab
+namespace param
 {
     class param_value;
     class param_array;
@@ -23,7 +23,7 @@ namespace scarab
     class param;
     typedef std::unique_ptr< param > param_ptr_t;
 
-    class SCARAB_API param
+    class PARAM_API param
     {
         public:
             param();
@@ -65,10 +65,10 @@ namespace scarab
             param& operator[]( unsigned a_index );
 
             /// Assumes that the parameter is a node, and returns a reference to the param corresponding to a_name.
-            /// Throws a scarab::error if a_name is not present.
+            /// Throws a param::error if a_name is not present.
             const param& operator[]( const std::string& a_name ) const;
             /// Assumes that the parameter is a node, and returns a reference to the param corresponding to a_name.
-            /// Throws a scarab::error if a_name is not present.
+            /// Throws a param::error if a_name is not present.
             param& operator[]( const std::string& a_name );
 
             /// If the derived param type is param_node, forwards the reqeust to param_node; otherwise throws an error.
@@ -100,8 +100,8 @@ namespace scarab
             static unsigned s_indent_level;
     };
 
-    SCARAB_API std::ostream& operator<<(std::ostream& out, const param& value);
+    PARAM_API std::ostream& operator<<(std::ostream& out, const param& value);
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_BASE_HH_ */
+#endif /* PARAM_PARAM_BASE_HH_ */

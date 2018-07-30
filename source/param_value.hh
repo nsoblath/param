@@ -5,26 +5,21 @@
  *      Author: nsoblath
  */
 
-#ifndef SCARAB_PARAM_VALUE_HH_
-#define SCARAB_PARAM_VALUE_HH_
+#ifndef PARAM_PARAM_VALUE_HH_
+#define PARAM_PARAM_VALUE_HH_
 
 #include "param_base.hh"
-
-#include "path.hh"
 
 #include <boost/variant.hpp>
 
 #include <stdint.h>
 
-//#include "logger.hh"
-//LOGGER(pv_h, "param_value.hh")
-
-namespace scarab
+namespace param
 {
     class param_array;
     class param_node;
 
-    class SCARAB_API param_value : public param
+    class PARAM_API param_value : public param
     {
         public:
             param_value();
@@ -70,7 +65,6 @@ namespace scarab
             int64_t as_int() const;
             double as_double() const;
             std::string as_string() const;
-            path as_path() const;
 
             template< typename XValType >
             XValType as() const;
@@ -322,21 +316,6 @@ namespace scarab
                     }
             };
 
-            class as_path_visitor : public boost::static_visitor<>
-            {
-                public:
-                    typedef scarab::path result_type;
-                    scarab::path operator()( const std::string& a_value ) const
-                    {
-                        return scarab::path( a_value );
-                    }
-                    template< typename T >
-                    scarab::path operator()( T ) const
-                    {
-                        return scarab::path();
-                    }
-            };
-
             class clear_visitor : public boost::static_visitor<>
             {
                 public:
@@ -359,7 +338,7 @@ namespace scarab
 
     };
 
-    SCARAB_API std::ostream& operator<<(std::ostream& out, const param_value& value);
+    PARAM_API std::ostream& operator<<(std::ostream& out, const param_value& value);
 
     template<>
     inline bool param_value::as< bool >() const
@@ -389,12 +368,6 @@ namespace scarab
     inline std::string param_value::as< std::string >() const
     {
         return as_string();
-    }
-
-    template<>
-    inline scarab::path param_value::as< scarab::path >() const
-    {
-        return as_path();
     }
 
     template< typename XValType >
@@ -480,11 +453,6 @@ namespace scarab
         return boost::apply_visitor( as_string_visitor(), f_value );
     }
 
-    inline path param_value::as_path() const
-    {
-        return boost::apply_visitor( as_path_visitor(), f_value );
-    }
-
     template< typename XValType, typename std::enable_if< std::is_convertible< XValType, param_value >::value, XValType >::type* >
     void param_value::set( XValType a_value )
     {
@@ -503,6 +471,6 @@ namespace scarab
         return;
     }
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_VALUE_HH_ */
+#endif /* PARAM_PARAM_VALUE_HH_ */

@@ -5,8 +5,8 @@
  *      Author: nsoblath
  */
 
-#ifndef SCARAB_PARAM_ARRAY_HH_
-#define SCARAB_PARAM_ARRAY_HH_
+#ifndef PARAM_PARAM_ARRAY_HH_
+#define PARAM_PARAM_ARRAY_HH_
 
 #include "param_value.hh"
 
@@ -18,7 +18,7 @@
 #include <deque>
 
 
-namespace scarab
+namespace param
 {
     class param_value;
     class param_node;
@@ -28,7 +28,7 @@ namespace scarab
     typedef boost::indirect_iterator< param_array_contents::iterator, param > param_array_iterator;
     typedef boost::indirect_iterator< param_array_contents::const_iterator, const param > param_array_const_iterator;
 
-    class SCARAB_API param_array : public param
+    class PARAM_API param_array : public param
     {
         public:
             typedef param_array_contents contents;
@@ -340,8 +340,8 @@ namespace scarab
         return f_contents.crend();
     }
 
-    SCARAB_API std::ostream& operator<<(std::ostream& out, const param_array& value);
+    PARAM_API std::ostream& operator<<(std::ostream& out, const param_array& value);
 
-} /* namespace scarab */
+} /* namespace param */
 
-#endif /* SCARAB_PARAM_ARRAY_HH_ */
+#endif /* PARAM_PARAM_ARRAY_HH_ */
