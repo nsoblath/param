@@ -10,9 +10,7 @@ script: make
 matrix:
   include:
     - os: linux
-      compiler:
-        - clang
-        - gcc
+      compiler: gcc
       addons:
         apt:
           sources:
@@ -22,13 +20,24 @@ matrix:
             - libboost-all-dev
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-    - os: osx
+   include:
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - libboost-all-dev
+   - os: osx
       osx_image: xcode8
-      compiler:
-        - clang
-        - gcc
+      compiler: gcc
+      ruby: 2.3.0
       env:
         - MATRIX_EVAL="brew install gcc5 && CC=gcc-5 && CXX=g++-5"
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
   
 before_install:
   - eval "${MATRIX_EVAL}"
