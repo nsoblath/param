@@ -1,13 +1,5 @@
 language: cpp
 
-compiler:
-  - clang
-  - gcc
-  
-os:
-  - osx
-  - linux
-
 before_script:
   - mkdir build
   - cd build
@@ -18,16 +10,23 @@ script: make
 matrix:
   include:
     - os: linux
+      compiler:
+        - clang
+        - gcc
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
+            - libboost-all-dev
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
     - os: osx
       osx_image: xcode8
+      compiler:
+        - clang
+        - gcc
       env:
         - MATRIX_EVAL="brew install gcc5 && CC=gcc-5 && CXX=g++-5"
   
