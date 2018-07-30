@@ -13,7 +13,7 @@ cmake_policy( SET CMP0042 NEW ) # rpath on mac os x
 cmake_policy( SET CMP0048 NEW ) # version in project()
 
 # Define the project
-project( Param VERSION 0.0.0 )
+project( Param VERSION 0.1.0 )
 
 # Project options
 option( Param_ENABLE_TESTING "Turn on or off the building of test programs" OFF )
