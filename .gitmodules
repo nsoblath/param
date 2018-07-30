@@ -1,0 +1,6 @@
+[submodule "source/codec/yaml/yaml-cpp"]
+	path = source/codec/yaml/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "source/codec/json/rapidjson"]
+	path = source/codec/json/rapidjson
+	url = https://github.com/miloyip/rapidjson.git

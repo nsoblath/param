@@ -1,3 +1,12 @@
+*.swp
+
+# Eclipse
+.project
+.cproject
+
+# Build directories
+build*/
+
 # Prerequisites
 *.d
 
@@ -30,3 +39,4 @@
 *.exe
 *.out
 *.app
+>>>>>>> 61e47b0681e2fd38ce407f95754378241eae0921
