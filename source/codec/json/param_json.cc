@@ -47,10 +47,9 @@ namespace param
             unsigned errorPos = t_config_doc.GetErrorOffset();
             rewind( t_config_file );
             unsigned iChar, newlineCount = 1, lastNewlinePos = 0;
-            int thisChar;
             for( iChar = 0; iChar != errorPos; ++iChar )
             {
-                thisChar = fgetc( t_config_file );
+                int thisChar = fgetc( t_config_file );
                 if( thisChar == EOF )
                 {
                     break;
